@@ -25,7 +25,6 @@ def pattern_matcher(contract):
 #for JUMP or JUMPI, adjust the value depending on the number of bytes added
 def adjust_jump(added_bytes,jump_index,contract):
     jump_index = 0
-    print("called adjust_jump")
     #TODO : adjust push_value depending on whether or not it should
     #we suppose yet that every jump is preceded by a push
     for opcode in contract.opcode:
