@@ -1,0 +1,51 @@
+Creation bytecode: 
+Runtime bytecode: 6000600a566001600c015b5b6001601257fe5b6001
+Successfully decompiled examples/jump.bc
+Runtime Bytecode : []
+0x0 : PUSH1 00 
+0x2 : PUSH1 0a 
+0x4 : JUMP 
+0x5 : PUSH1 01 
+0x7 : PUSH1 0c 
+0x9 : ADD 
+0xa : JUMPDEST 
+0xb : JUMPDEST 
+0xc : PUSH1 01 
+0xe : PUSH1 12 
+0x10 : JUMPI 
+0x11 : INVALID 
+0x12 : JUMPDEST 
+0x13 : PUSH1 01 
+
+Found pattern "add"
+
+called adjust_jump
+Added 11 bytes
+Runtime Bytecode : 6000600a600d01566001600c82600003039050196001015b5b6001601260100157fe5b6001
+0x0 : PUSH1 00 
+0x2 : PUSH1 0a 
+0x4 : PUSH1 0d 
+0x6 : ADD 
+0x7 : JUMP 
+0x8 : PUSH1 01 
+0xa : PUSH1 0c 
+0xc : DUP2 
+0xd : PUSH1 00 
+0xf : SUB 
+0x10 : SUB 
+0x11 : SWAP1 
+0x12 : POP 
+0x13 : NOT 
+0x14 : PUSH1 01 
+0x16 : ADD 
+0x17 : JUMPDEST 
+0x18 : JUMPDEST 
+0x19 : PUSH1 01 
+0x1b : PUSH1 12 
+0x1d : PUSH1 10 
+0x1f : ADD 
+0x20 : JUMPI 
+0x21 : INVALID 
+0x22 : JUMPDEST 
+0x23 : PUSH1 01 
+
