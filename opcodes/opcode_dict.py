@@ -151,26 +151,27 @@ opcodes_dict = {
 }
 
 #add invalid value to dict
-for i in range(0x0c,0x0f):
+#add 0x01 to make the range from go from (a) to (b) and not (a) to (b-1)
+for i in range(0x0c,0x0f + 0x01):
     opcodes_dict["0x0"+hex(i)[2:]]=[INVALID,0,0,0] #add "0" to "0x" to make it 0x0c or its "0xc"
 
-for i in range(0x1e,0x1f):
+for i in range(0x1e,0x1f + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0x21,0x2F):
+for i in range(0x21,0x2F + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0x49,0x4f):
+for i in range(0x49,0x4f + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0x5c,0x5f):
+for i in range(0x5c,0x5f + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0xa5,0xef):
+for i in range(0xa5,0xef + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0xf6,0xf9):
+for i in range(0xf6,0xf9 + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
 
-for i in range(0xfb,0xfc):
+for i in range(0xfb,0xfc + 0x01):
     opcodes_dict["0x"+hex(i)[2:]]=[INVALID,0,0,0]
