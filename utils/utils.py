@@ -26,25 +26,26 @@ def isolate_creation_runtime_bytecode(bytecode):
         index += 1
     return creation_bytecode, runtime_bytecode
 
-#replace every occurence of a sublist in a list
-def replace_sublist_in_list(contract:Contract, opcode_type_list, original_pattern, instanciated_pattern):
+#replace every occurence of a sublist in a list in a given contract
+def obfuscate_pattern(contract:Contract, opcode_type_list, original_pattern, instanciated_pattern, added_bytes):
     current_opcode = contract.opcode
-    added_bytes = 0
-    obf_i = 0
+    pc_opcode = pc_opcode_dict(contract.opcode)
+    total_added_bytes = 0
+    obf_i = 0 #obf_i is necessary to iterate over obfuscated bytecode (with more bytes than original bytecode)
 
     for i in range(len(opcode_type_list)):
         if opcode_type_list[i:i+len(original_pattern)] == original_pattern:
+            current_opcode[obf_i:obf_i+len(original_pattern)] = instanciated_pattern 
+            pc_flag = list(pc_opcode)[i] #get the pc of the first opcode of the pattern
+            contract.add_obfuscation_flag(pc_flag,added_bytes)
 
-            current_opcode[obf_i:obf_i+len(original_pattern)] = instanciated_pattern
+            obf_i += added_bytes-1 #TODO: -1 or forgot last opcode?
+            total_added_bytes += added_bytes
+        else:
+            obf_i += 1
 
-            obf_i+=len(instanciated_pattern)-1 #TODO: the (-1) might be a bug source when multiple obf from a single pattern)
-            added_bytes += get_bytelength(instanciated_pattern)
-            print(i)
-            contract.add_obfuscation_flag(get_bytelength(current_opcode[0:i]),added_bytes)
-
-        obf_i += 1
     contract.update_opcode(current_opcode)
-    return added_bytes
+    return total_added_bytes
 
 # get bytelength from instanciated pattern
 def get_bytelength(instanciated_pattern: list) -> int:
@@ -63,17 +64,14 @@ def get_bytelength_without_push_value(instanciated_pattern:list) -> int:
     return bytelength
 
 
-def int_to_hex_string(integer: int) -> str:
-    hex_string = hex(integer)[2:]
-    if len(hex_string) % 2 != 0:
-        hex_string = "0"+hex_string
-    return hex_string
 
-#if string uneven, add a 0 at the beginning
-def hex_string_to_int(hex_string: str) -> str:
-    if len(hex_string) % 2 != 0:
-        hex_string = "0"+hex_string
-    return hex_string
+
+#concatenate string values of a dictionnary
+def concatenate_dict_values(dict: dict) -> str:
+    string = ""
+    for key in dict:
+        string += dict[key]
+    return string
 
 # #replace a list by another list in a list
 # def replace_list_in_list(contract: Contract, instanciated_pattern: list, opcode_types: list, original_pattern: list,):
@@ -92,4 +90,3 @@ def hex_string_to_int(hex_string: str) -> str:
 #         if list[i:i+len(pattern)] == pattern:
 #             count += 1
 #     return count
-

@@ -528,17 +528,24 @@ class JUMPDEST(metaclass=OPCODE):
 
 
 class PUSH(metaclass=OPCODE):
-    name = "PUSH"
     ins = 0
     outs = 1
     gas = 3
-    # init PUSH obj, 1<byte_amount<32, value as a string ("0x6541")
+    byte_amount = None
 
+    @property
+    def name(self):
+        if self.byte_amount != None:
+            return "PUSH%s %s" % (self.byte_amount, self.value)  # type: ignore
+        else:
+            return "PUSH"
+
+    # init PUSH obj, 1<byte_amount<32, value as a string ("0x6541")
     def __init__(self, byte_amount, value):
         self.opcode = hex(int("60", 16) + byte_amount - 1)  # (0x60 to 0x7f)
-        self.name = "PUSH%s %s" % (byte_amount, value)
         self.value = (value)
         self.pc_offset = byte_amount
+        self.byte_amount = byte_amount
 
         if byte_amount > 32 | byte_amount < 1:
             raise Exception('Wrong amount of byte for PUSH')
@@ -549,6 +556,7 @@ class PUSH(metaclass=OPCODE):
             raise ValueError("Invalid value (%s) for PUSH with byte_amount = %s" % (value,byte_amount))
         else:
             value = value
+
 
 
 class DUP(metaclass=OPCODE):
